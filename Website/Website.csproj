@@ -622,6 +622,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="js\flot-data.js" />
+    <Content Include="js\jquery.sonic-gauge.js" />
+    <Content Include="js\jquery.sonic-gauge.min.js" />
     <Content Include="js\morris-data.js" />
     <Content Include="js\site.js" />
     <Content Include="sample\bower_components\bootstrap-social\.gitignore" />
@@ -1087,6 +1089,7 @@
     <Content Include="sample\pages\panels-wells.html" />
     <Content Include="sample\pages\tables.html" />
     <Content Include="sample\pages\typography.html" />
+    <Content Include="sample\sonicgauge.html" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -1682,6 +1685,7 @@
     <Content Include="sample\bower.json" />
     <Content Include="sample\LICENSE" />
     <Content Include="sample\README.md" />
+    <None Include="Properties\PublishProfiles\clapometer - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\flot-data.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />

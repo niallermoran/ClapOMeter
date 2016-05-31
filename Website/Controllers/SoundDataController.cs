@@ -20,12 +20,27 @@ namespace Website.Controllers
     {
         public object Get()
         {
-            var json = new {
+            var json = new
+            {
                 Maximum = ClapOMeterEventProcessor.SoundDataMax,
                 Minimum = ClapOMeterEventProcessor.SoundDataMin,
-                Average = ClapOMeterEventProcessor.SoundDataAVG
+                Average = Math.Round( ClapOMeterEventProcessor.SoundDataAVG),
+                TimeFrame = string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
+                ClapOMeterEventProcessor.SoundCollectionPeriod.Days.ToString(),
+                ClapOMeterEventProcessor.SoundCollectionPeriod.Hours.ToString(),
+                ClapOMeterEventProcessor.SoundCollectionPeriod.Minutes.ToString(),
+                ClapOMeterEventProcessor.SoundCollectionPeriod.Seconds.ToString())
             };
             return json;
+        }
+    }
+
+
+    public class SoundLatestDataController : ApiController
+    {
+        public SoundDataModel Get()
+        {
+            return ClapOMeterEventProcessor.SoundDataLatest;
         }
     }
 }

@@ -16,9 +16,15 @@ namespace Website
         public static List<SoundDataModel> SoundData = new List<SoundDataModel>();
         public static SoundDataModel SoundDataMax;
         public static SoundDataModel SoundDataMin;
+        public static SoundDataModel SoundDataLatest;
         public static double SoundDataAVG;
         private static double soundDataTotal;
         private static int soundDataCount = 0;
+        private static DateTime? startTime;
+        public static TimeSpan SoundCollectionPeriod;
+
+        // Keep a buffer of all messages for as long as the client UX needs them
+        static TimeSpan bufferTimeInterval = new TimeSpan(0, 1, 0);
 
         public string LastMessageOffset { get; private set; }
 
@@ -38,34 +44,50 @@ namespace Website
             {
                 foreach (EventData eventData in messages)
                 {
-                    // reset the offset so we don't keep reading old messages
-                    this.LastMessageOffset = eventData.Offset;
-
-                    // get the message
-                    string data = Encoding.UTF8.GetString(eventData.GetBytes());
-
-                    // deserialise the json data
-                    var model = JsonConvert.DeserializeObject<SoundDataModel>(data);
-
-                    // add the new item
-                    SoundData.Add(model);
-
-                    // calculate the aggregates
-                    if ( SoundDataMax == null || model.Sound == SoundDataMax.Sound )
-                        SoundDataMax = model;
-
-                    if (SoundDataMin == null || model.Sound < SoundDataMax.Sound)
-                        SoundDataMin = model;
-
-                    soundDataCount++;
-                    soundDataTotal += model.Sound;
-                    SoundDataAVG = soundDataTotal / soundDataCount;
-
-                    // trim down the list to no more than 100 items for realtime graphs
-                    if ( SoundData.Count > 100 )
+                    // We don't care about messages that are older than bufferTimeInterval
+                    if ((eventData.EnqueuedTimeUtc + bufferTimeInterval) >= DateTime.UtcNow )
                     {
-                        int delta = SoundData.Count - 100;
-                        SoundData.RemoveRange( SoundData.Count - delta, delta);
+
+                        // reset the offset so we don't keep reading old messages
+                        this.LastMessageOffset = eventData.Offset;
+
+                        // get the message
+                        string data = Encoding.UTF8.GetString(eventData.GetBytes());
+
+                        // deserialise the json data
+                        var model = JsonConvert.DeserializeObject<SoundDataModel>(data);
+
+                        // set the latest value
+                        SoundDataLatest = model;
+
+                        // set the start time as the time of the first event received
+                        if (!startTime.HasValue)
+                            startTime = model.Time;
+
+                        // add the new item
+                      //  SoundData.Add(model);
+
+                        if (SoundDataMax == null) SoundDataMax = model;
+                        if (SoundDataMin == null) SoundDataMin = model;
+
+                        // calculate the aggregates
+                        if ( model.Sound > SoundDataMax.Sound)
+                            SoundDataMax = model;
+
+                        if (model.Sound < SoundDataMin.Sound || SoundDataMin.Sound == 0)
+                            SoundDataMin = model;
+
+                        soundDataCount++;
+                        soundDataTotal += model.Sound;
+                        SoundDataAVG = soundDataTotal / soundDataCount;
+                        SoundCollectionPeriod = DateTime.Now.Subtract(startTime.Value);
+
+                        // trim down the list to no more than 100 items for realtime graphs
+                        //if (SoundData.Count > 100)
+                        //{
+                        //    int delta = SoundData.Count - 100;
+                        //    SoundData.RemoveRange(SoundData.Count - delta, delta);
+                        //}
                     }
                 }
 

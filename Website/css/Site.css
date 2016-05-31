@@ -1,3 +1,9 @@
 ﻿body {
+}
 
+.gauge {
+    margin-left:0;
+    margin-right:0;
+    text-align:center;
+    align-content:center;
 }
