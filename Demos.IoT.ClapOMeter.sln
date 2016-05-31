@@ -3,14 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Node", "Node", "{39ED9C85-3A00-4B6E-B866-55D559AED9D4}"
-	ProjectSection(SolutionItems) = preProject
-		app.js = app.js
-		package.json = package.json
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31DA4B5B-969F-4604-9B91-9D0BD3359B3E}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionItems\app.js = SolutionItems\app.js
+		SolutionItems\package.json = SolutionItems\package.json
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -29,8 +25,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{39ED9C85-3A00-4B6E-B866-55D559AED9D4} = {31DA4B5B-969F-4604-9B91-9D0BD3359B3E}
 	EndGlobalSection
 EndGlobal
