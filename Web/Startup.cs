@@ -11,6 +11,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Web.Models;
 using Web.Services;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+
+using Microsoft.ServiceBus.Messaging;
+using Newtonsoft.Json;
+using System.Threading;
 
 namespace Web
 {
@@ -35,6 +42,23 @@ namespace Web
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            SetupEventHubProcessor();
+        }
+
+        private async void SetupEventHubProcessor()
+        {
+            EventProcessorHost eventProcessorHost = new EventProcessorHost(Guid.NewGuid().ToString(),
+                 "ClapOMeterIoTHub",
+                 "clapometer",
+                 "Endpoint=sb://iothub-ns-clapometer-41652-7dcd69e3c6.servicebus.windows.net/;SharedAccessKeyName=iothubowner;SharedAccessKey=y0Hdq5gOXk0MhbyuqQnt/+uDbzGa+QlqQDHUsWjLdEo=",
+                 "DefaultEndpointsProtocol=https;AccountName=clapometer;AccountKey=xEn4z6Q83yOJXij8PyDgpQVTrsU/d8MBDGtG/hEEMaNJKTneaLZ2dSRU+EHl4AttO0Vi3Vapr5W7RU29XHS0kg==");
+
+            var options = new EventProcessorOptions();
+            options.ExceptionReceived += (sender, e) => {
+                Trace.WriteLine(e.Exception);
+            };
+            await eventProcessorHost.RegisterEventProcessorAsync< ClapOMeterEventProcessor >(options);
         }
 
         public IConfigurationRoot Configuration { get; set; }

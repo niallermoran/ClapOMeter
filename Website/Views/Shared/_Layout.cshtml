@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <script type="text/javascript">
+        var appInsights=window.appInsights||function(config){
+            function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+        }({
+            instrumentationKey:"6955f419-819d-4011-9f52-edefdb4db449"
+        });
+        
+        window.appInsights=appInsights;
+        appInsights.trackPageView();
+    </script>
+
+    <link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.css" />
+
+    <!-- MetisMenu CSS -->
+    <link href="~/bower_components/metisMenu/dist/metisMenu.css" rel="stylesheet">
+    <!-- Timeline CSS -->
+    <link href="~/bower_components/startbootstrap-sb-admin-2/dist/css/timeline.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/bower_components/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="~/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="~/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
+
+    <link href="~/css/Site.css" rel="stylesheet" type="text/css">
+
+    <script src="~/bower_components/jquery/dist/jquery.js"></script>
+    <script src="~/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/bower_components/metisMenu/dist/metisMenu.js"></script>
+    <!-- Morris Charts JavaScript -->
+    <script src="~/bower_components/raphael/raphael.js"></script>
+    <script src="~/bower_components/morrisjs/morris.js"></script>
+    <script src="~/js/morris-data.js"></script>
+    <script src="~/js/flot-data.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/bower_components/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+</head>
+<body>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Pretty Useless Application of Great Technology</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <div class="nav navbar-top-links navbar-right">
+
+                <a class="navbar-brand" href="https://github.com/niallermoran/ClapOMeter" target="_blank">Get the Code on GitHub</a>
+
+            </div>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-building-o fa-fw"></i> Techology<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="https://azure.microsoft.com/en-gb/documentation/services/iot-hub/" target="_blank">Azure IoT Hub</a>
+                                </li>
+                                <li>
+                                    <a href="https://azure.microsoft.com/en-gb/documentation/services/stream-analytics/" target="_blank">Azure Stream Analytics</a>
+                                </li>
+                                <li>
+                                    <a href="https://azure.microsoft.com/en-gb/develop/iot/" target="_blank">Azure IoT Developer Center</a>
+                                </li>
+                                <li>
+                                    <a href="/" target="_blank">Azure IoT Developer Center</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="/Tables"><i class="fa fa-table fa-fw"></i> Data</a>
+                        </li>
+                        <li>
+                            <a href="~/sample/index.html"><i class="fa fa-table fa-fw"></i> Bootstrap Admin Sample</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            @RenderBody()
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+</body>
+</html>
