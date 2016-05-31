@@ -14,7 +14,7 @@ var Message = require('azure-iot-device').Message;
 // need a better way to store this in reality, this is just for demo
 var connectionString = 'HostName=[eventhubname].azure-devices.net;DeviceId=[device id];SharedAccessKeyName=[shared access key];SharedAccessKey=[key]';
 
-connectionString = 'HostName=ClapOMeterIoTHub.azure-devices.net;DeviceId=00255c2004;SharedAccessKey=SnaAxhEhhceU2IlagaTSwXtg2IcDaqbA1Sc6yk4eP1A=';
+connectionString = 'HostName=ClapOMeterIoTHub.azure-devices.net;DeviceId=edison;SharedAccessKey=aKtIZQVDm/fYIS/GpkLzAX94+JkZ9YXudKZaaEX+ZEA=';
 
 var iothub = Client.fromConnectionString(connectionString, Protocol);
 
@@ -27,7 +27,6 @@ var board = new Five.Board({
 });
 
 
-//client.open(connectCallback);
 
 // The board.on() executes the anonymous function when the
 // board reports back that it is initialized and ready. 
@@ -35,15 +34,15 @@ board.on("ready", function () {
 
   console.log("Board connected...");
 
-  var sound = new Five.Sensor("A1");
+  sound = new Five.Sensor("A1");
 
-  this.loop(1000, function () {
-    var soundValue = sound.value;
-    console.log("Sound value: " + soundValue.toString());
-  });
+  console.log("Opening IoT Hub connection");
 
+  iothub.open(connectCallback);
 
 });
+
+
 
 
 var connectCallback = function (err) {
@@ -53,59 +52,33 @@ var connectCallback = function (err) {
     console.log('Client connected');
 
 
-    client.on('message', function (msg) {
+    iothub.on('message', function (msg) {
 
-      // get the action sent from the cloud
-      var action = msg.data;
-
-
-      if (action == "TurnOn" && isHeatingOn == 0) {
-
-        MakeSound();
-        // receives messages sent from the cloud
-        console.log('Message received : ' + action);
-        isHeatingOn = 1;
-      }
-
-      if (action == "TurnOff" && isHeatingOn == 1) {
-
-
-        MakeSound();
-        // receives messages sent from the cloud
-        console.log('Message received : ' + action);
-        isHeatingOn = 0;
-      }
-
-      client.complete(msg, printResultFor('Cloud to device message received: ' + action));
+      // this is fired when a cloud to device message is received by the IoT hub for this device
     });
 
     // Create a message and send it to the IoT Hub every second
     var sendInterval = setInterval(function () {
       var d = new Date();
       var data = JSON.stringify({
-        DeviceId: '00255c2004',
-        DeviceName: 'Factory 5',
-        FloorArea: '10000',
-        Internaltemp: temp.celsius,
-        ExternalTemp: temp.celsius - 15,
-        IsHeatingOn: isHeatingOn,
-        NumberofPeople: Math.floor(50 + (Math.random() * 5)),
-        Time: new Date()
+        DeviceId: 'edison',
+        Sound: sound.value,
+        Time: d
       });
 
       var message = new Message(data);
-      //   console.log('Sending message: ' + message.getData());
-      client.sendEvent(message, printResultFor('sent temp of ' + temp.celsius.toString() + ((isHeatingOn == 1) ? "Heating ON" : "Heating Off")));
-    }, 2000);
+         console.log('Sending message: ' + message.getData());
+      iothub.sendEvent(message, printResultFor('sent sound of ' + sound.value.toString()));
+    }, 500);
 
-    client.on('error', function (err) {
+    iothub.on('error', function (err) {
       console.error(err.message);
     });
 
-    client.on('disconnect', function () {
+    iothub.on('disconnect', function () {
       clearInterval(sendInterval);
-      client.removeAllListeners();
-      client.connect(connectCallback);
+      iothub.removeAllListeners();
+      iothub.connect(connectCallback);
     });
   }
 };
