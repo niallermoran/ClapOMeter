@@ -1,0 +1,15 @@
+{
+  "name": "ClapOMeter",
+  "version": "0.0.1",
+  "description": "Responding to sensor input using Node.js, Johnny-Five and a Grove Sound Sensor",
+  "main": "app.json",
+  "license": "MIT",
+  "dependencies": {
+    "johnny-five": "latest",
+    "edison-io": "latest",
+    "azure-iot-device": "latest",
+    "azure-iot-device-amqp": "latest",
+    "azure-iot-device-http": "latest",
+    "azure-iot-device-mqtt": "latest"
+  }
+}
