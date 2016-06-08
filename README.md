@@ -46,5 +46,8 @@ The Edison is used to read sound intensity data from a sensor and send that data
 9. Return to the putty client and issue the command cd ClapOMeter to make sure you are issuing commands within your new folder.
 10. Execute the comman npm -install. This will analyse the package.json file and download any dependencies required, e.g. the Johnny-Five and Azure SDKs.
 11. Now you should be able to run the app.js file. Execute the command node app.js in the correct folder (Use ls command to ensure you are in the correct folder) 
+12. If this works then you will start to see success messages on the console. If it doesn't work ensure your connection string is correct, that the Edison does have internet connectivity and that the correct packages have been downloaded.
+13. 
+
 
 
