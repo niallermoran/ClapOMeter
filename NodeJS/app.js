@@ -14,8 +14,6 @@ var Message = require('azure-iot-device').Message;
 // need a better way to store this in reality, this is just for demo
 var connectionString = 'HostName=[eventhubname].azure-devices.net;DeviceId=[device id];SharedAccessKeyName=[shared access key];SharedAccessKey=[key]';
 
-connectionString = 'HostName=ClapOMeterIoTHub.azure-devices.net;DeviceId=edison;SharedAccessKey=aKtIZQVDm/fYIS/GpkLzAX94+JkZ9YXudKZaaEX+ZEA=';
-
 var iothub = Client.fromConnectionString(connectionString, Protocol);
 
 // Define the sensors you will use

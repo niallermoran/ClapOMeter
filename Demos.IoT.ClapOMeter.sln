@@ -5,12 +5,18 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{31DA4B5B-969F-4604-9B91-9D0BD3359B3E}"
 	ProjectSection(SolutionItems) = preProject
-		SolutionItems\app.js = SolutionItems\app.js
-		SolutionItems\package.json = SolutionItems\package.json
+		NodeJS\app.js = NodeJS\app.js
+		NodeJS\package.json = NodeJS\package.json
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{74A6484E-4C89-460B-86D8-2DE6FC22543D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Excluded", "Excluded", "{435EBB35-F0B6-4316-A0C4-3BDAAF250664}"
+	ProjectSection(SolutionItems) = preProject
+		Excluded\app.js = Excluded\app.js
+		Excluded\Web.config = Excluded\Web.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,7 +13,6 @@ namespace Website
 {
     public class ClapOMeterEventProcessor : IEventProcessor
     {
-        public static List<SoundDataModel> SoundData = new List<SoundDataModel>();
         public static SoundDataModel SoundDataMax;
         public static SoundDataModel SoundDataMin;
         public static SoundDataModel SoundDataLatest;
@@ -57,15 +56,14 @@ namespace Website
                         // deserialise the json data
                         var model = JsonConvert.DeserializeObject<SoundDataModel>(data);
 
+                        // push this to rest api or elsewhere
+
                         // set the latest value
                         SoundDataLatest = model;
 
                         // set the start time as the time of the first event received
                         if (!startTime.HasValue)
                             startTime = model.Time;
-
-                        // add the new item
-                      //  SoundData.Add(model);
 
                         if (SoundDataMax == null) SoundDataMax = model;
                         if (SoundDataMin == null) SoundDataMin = model;
@@ -81,13 +79,6 @@ namespace Website
                         soundDataTotal += model.Sound;
                         SoundDataAVG = soundDataTotal / soundDataCount;
                         SoundCollectionPeriod = DateTime.Now.Subtract(startTime.Value);
-
-                        // trim down the list to no more than 100 items for realtime graphs
-                        //if (SoundData.Count > 100)
-                        //{
-                        //    int delta = SoundData.Count - 100;
-                        //    SoundData.RemoveRange(SoundData.Count - delta, delta);
-                        //}
                     }
                 }
 

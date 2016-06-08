@@ -8,14 +8,6 @@ using Website.Models;
 
 namespace Website.Controllers
 {
-    public class SoundDataController : ApiController
-    {
-        public IEnumerable<SoundDataModel> Get()
-        {
-            return ClapOMeterEventProcessor.SoundData.OrderByDescending( x=>x.Time );
-        }
-    }
-
     public class SoundAggregatesDataController : ApiController
     {
         public object Get()
