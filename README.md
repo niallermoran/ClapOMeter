@@ -10,6 +10,11 @@ The demo uses an Intel Edison kit with Arduion exapnsion board and Grove Base sh
 3. An Azure subscription [You can find it here] (http://www.azure.com)
 
 # Setup Azure
+1. In Azure create an IoT Hub using the free or standard tier and store the following details for later:
+ * The host name, e.g. ClapOMeterIoTHub
+ * From the 'Shared Access Policies' section store the policy name (maybe create a new one), e.g. IoTHubOwner
+ * From the 'Shared Access Policies' section click the policy name and store the primary key. 
+ * From the 'Messaging' tab take note of the 'Event Hub-compatible name' and 'Event Hub-compatible endpoint' values
 
 # Setup the Edison
 
