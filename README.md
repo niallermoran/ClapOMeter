@@ -31,6 +31,7 @@ There are only two parts to the code, the Node.js app that runs on the Edison an
 # Setup the Edison
 
 The Edison is used to read sound intensity data from a sensor and send that data to an IoT Hub which you created in the previous step. The steps to setup the Edison are as follows:
+
 1. Unbox and assemble the Edison Kit for Arduino. [This video from Intel shows how](https://software.intel.com/en-us/videos/intel-edison-kit-for-arduino-unboxing-and-assembly)
 2. Attach the base shield to the board and the Sound sensor to one of the 'A' connectors. Make sure this matches the app.js file later, which is normally A1.
 3. Update the firmware on the Edison using the Intel tool [found here](https://software.intel.com/en-us/iot/hardware/edison/downloads)
