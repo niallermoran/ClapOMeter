@@ -37,6 +37,20 @@ namespace Website
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// Resets all averages
+        /// </summary>
+        public static void ResetAverages()
+        {
+            SoundDataMax = new SoundDataModel();
+            SoundDataMin = new SoundDataModel();
+            SoundDataLatest = new SoundDataModel();
+            SoundDataAVG = 0;
+            soundDataTotal = 0;
+            soundDataCount = 0;
+            startTime = null;
+        }
+
         public async Task ProcessEventsAsync(PartitionContext context, IEnumerable<EventData> messages)
         {
             try
@@ -55,8 +69,6 @@ namespace Website
 
                         // deserialise the json data
                         var model = JsonConvert.DeserializeObject<SoundDataModel>(data);
-
-                        // push this to rest api or elsewhere
 
                         // set the latest value
                         SoundDataLatest = model;
@@ -78,7 +90,7 @@ namespace Website
                         soundDataCount++;
                         soundDataTotal += model.Sound;
                         SoundDataAVG = soundDataTotal / soundDataCount;
-                        SoundCollectionPeriod = DateTime.Now.Subtract(startTime.Value);
+                        SoundCollectionPeriod = DateTime.Now.ToUniversalTime().Subtract(startTime.Value.ToUniversalTime());
                     }
                 }
 

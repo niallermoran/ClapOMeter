@@ -8,7 +8,20 @@
     var realtimeData = [];
     var maxGraphValues = 25;
 
+    // setup click handler for reset link
+    $("#resetdata").click(function () {
+  
+        $.ajax({
+            url: "/ResetAggregates",
+            type: "POST",
+            dataType: "json"
+        });
 
+        realtimeData = [];
+
+        alert('Data Reset Successfully');
+
+    });
 
     function PopulateAverages() {
         $.ajax({
@@ -44,7 +57,7 @@
                         gauge = $('#defaultGauge').SonicGauge({
                             label: 'Sound',
                             start: { angle: -180, num: 0 },
-                            end: { angle: 0, num: max.Sound },
+                            end: { angle: 0, num: 1023 },
                             style: {
                                 "outline": { "fill": "r#f46a3a-#890b0b", "stroke": "#590303", "stroke-width": 4 },
                               //  "center": { "fill": "#ae1e1e", "diameter": 8, "stroke": "#590303", "stroke-width": 6 },
@@ -77,8 +90,6 @@
         }
 
     }
-
-
     function PopulateChart() {
 
         $.ajax({
@@ -110,7 +121,8 @@
                             labels: ['Sound'],
                             pointSize: 2,
                             hideHover: 'auto',
-                            resize: true
+                            resize: true,
+                            ymax: 1023
                         });
                     }
 

@@ -28,7 +28,7 @@ namespace Website
             catch( Exception ex)
             {
                 Trace.WriteLine("An error occured in startup within SetupEventHubProcessor: " + ex.Message + ": " + ex.StackTrace);
-                throw new System.Web.HttpException("An error occurred setting up the event processor host for your IoT Hub, please check your connection settings are correct");
+                throw new System.Web.HttpException("An error occurred setting up the event processor host for your IoT Hub, please check your connection settings are correct: " + ex.Message);
             }
         }
 

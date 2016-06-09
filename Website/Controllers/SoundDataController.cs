@@ -25,6 +25,13 @@ namespace Website.Controllers
             };
             return json;
         }
+
+        [Route("ResetAggregates")]
+        public IHttpActionResult ResetAggregates()
+        {
+            ClapOMeterEventProcessor.ResetAverages();
+            return Ok();
+        }
     }
 
 
