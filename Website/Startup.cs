@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Owin;
 using Owin;
+using System.Threading.Tasks;
 
 using Microsoft.ServiceBus.Messaging;
 using Newtonsoft.Json;
@@ -20,10 +21,18 @@ namespace Website
         {
             ConfigureAuth(app);
 
-            SetupEventHubProcessor();
+            try
+            {
+                SetupEventHubProcessor().Wait();
+            }
+            catch( Exception ex)
+            {
+                Trace.WriteLine("An error occured in startup within SetupEventHubProcessor: " + ex.Message + ": " + ex.StackTrace);
+                throw new System.Web.HttpException("An error occurred setting up the event processor host for your IoT Hub, please check your connection settings are correct");
+            }
         }
 
-        private async void SetupEventHubProcessor()
+        private async Task SetupEventHubProcessor()
         {
             var name = CloudConfigurationManager.GetSetting("IoTHubName");
             var consumergroup = CloudConfigurationManager.GetSetting("IoTHubConsumerGroup");
