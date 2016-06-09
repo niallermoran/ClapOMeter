@@ -67,7 +67,7 @@ var connectCallback = function (err) {
       var message = new Message(data);
          console.log('Sending message: ' + message.getData());
       iothub.sendEvent(message, printResultFor('sent sound of ' + sound.value.toString()));
-    }, 1000);
+    }, 100);
 
     iothub.on('error', function (err) {
       console.error(err.message);

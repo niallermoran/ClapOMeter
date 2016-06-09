@@ -6,7 +6,7 @@
     var lineChart;
     var gauge;
     var realtimeData = [];
-    var maxGraphValues = 25;
+    var maxGraphValues = 75;
 
     // setup click handler for reset link
     $("#resetdata").click(function () {
