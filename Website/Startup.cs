@@ -30,6 +30,17 @@ namespace Website
                 Trace.WriteLine("An error occured in startup within SetupEventHubProcessor: " + ex.Message + ": " + ex.StackTrace);
                 throw new System.Web.HttpException("An error occurred setting up the event processor host for your IoT Hub, please check your connection settings are correct: " + ex.Message);
             }
+
+
+            try
+            {
+                SetupDeviceEventHubProcessor().Wait();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("An error occured in startup within SetupDeviceEventHubProcessor: " + ex.Message + ": " + ex.StackTrace);
+                throw new System.Web.HttpException("An error occurred setting up the event processor host for your Device IoT Hub, please check your connection settings are correct: " + ex.Message);
+            }
         }
 
         private async Task SetupEventHubProcessor()
@@ -41,6 +52,22 @@ namespace Website
 
             EventProcessorHost eventProcessorHost = new EventProcessorHost(Guid.NewGuid().ToString(), name, consumergroup, connectionstring, storagecnstring);
             
+            var options = new EventProcessorOptions();
+            options.ExceptionReceived += (sender, e) => {
+                Trace.WriteLine(e.Exception);
+            };
+            await eventProcessorHost.RegisterEventProcessorAsync<ClapOMeterEventProcessor>(options);
+        }
+
+        private async Task SetupDeviceEventHubProcessor()
+        {
+            var name = CloudConfigurationManager.GetSetting("EventHubName");
+            var consumergroup = CloudConfigurationManager.GetSetting("EventHubConsumerGroup");
+            var connectionstring = CloudConfigurationManager.GetSetting("EventHubConnectionString");
+            var storagecnstring = CloudConfigurationManager.GetSetting("StorageConnectionString");
+
+            EventProcessorHost eventProcessorHost = new EventProcessorHost(Guid.NewGuid().ToString(), name, consumergroup, connectionstring, storagecnstring);
+
             var options = new EventProcessorOptions();
             options.ExceptionReceived += (sender, e) => {
                 Trace.WriteLine(e.Exception);

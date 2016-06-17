@@ -18,6 +18,11 @@ The demo uses an Intel Edison kit with Arduion exapnsion board and Grove Base sh
  * From the 'Shared Access Policies' section store the policy name (maybe create a new one), e.g. IoTHubOwner
  * From the 'Shared Access Policies' section click the policy name and store the primary key. 
  * From the 'Messaging' tab take note of the 'Event Hub-compatible name' and 'Event Hub-compatible endpoint' values
+2. Create a storage account and create 3 tables, Averages, Spikes and Alerts. We will use stream analytics to analyse data in realtime and populate these tables. Use the [Azure Storage Explorer] (http://storageexplorer.com/) to create and view the tables.
+3. Create a stream analytics job.
+ * Define a single input pointing to the IoT Hub just created.
+ * Create an output for each of the tables just created. Name the outputs the same as the table names.
+ * Use the sql code located in 'streamanalytics.sql' for the query. Make sure the input and output names map to the parameters used in this query.
 
 # Register a Device
 One of the beneifts of using Azure IoT hub is that it supports device registration and management. Each device registered with the hub gets a unique ID and key and can be disabled or enabled from the Azure portal. You can register a device either by writing some code or using the IoT Hub Explorer application found [here](https://github.com/Azure/azure-iot-sdks/blob/master/tools/DeviceExplorer/doc/how_to_use_device_explorer.md). Simply run this app and enter the details noted above to build the correct connection string and click 'Update'. Then in the management tab click 'Create' to create a new device registration with a device id that you define. You will notice that this form then displays two keys, take note of the primary key.

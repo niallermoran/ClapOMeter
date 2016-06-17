@@ -1,12 +1,10 @@
 ﻿$(document).ready(function () {
 
-    PopulateAverages();
-    PopulateChart();
-
     var lineChart;
     var gauge;
-    var realtimeData = [];
-    var maxGraphValues = 75;
+
+    setInterval(PopulateAverages, 500);
+    setInterval(PopulateChart, 500);
 
     // setup click handler for reset link
     $("#resetdata").click(function () {
@@ -18,6 +16,7 @@
         });
 
         realtimeData = [];
+        messages = [];
 
         alert('Data Reset Successfully');
 
@@ -28,7 +27,8 @@
             url: "/api/SoundAggregatesData",
             type: "GET",
             dataType: "json",
-            success: onDataReceived
+            success: onDataReceived,
+            async:false
         });
 
         function onDataReceived(data) {
@@ -39,7 +39,7 @@
                     var min = data.Minimum;
                     var avg = data.Average;
                     var timeFrame = data.TimeFrame;
-
+                    var current = data.Current;
                     $("#soundMaximum").text(max.Sound);
                     $("#soundMaximumTime").text(max.DateTimeLabel);
                     $("#soundMinimum").text(min.Sound);
@@ -57,7 +57,7 @@
                         gauge = $('#defaultGauge').SonicGauge({
                             label: 'Sound',
                             start: { angle: -180, num: 0 },
-                            end: { angle: 0, num: 1023 },
+                            end: { angle: 0, num: 100 },
                             style: {
                                 "outline": { "fill": "r#f46a3a-#890b0b", "stroke": "#590303", "stroke-width": 4 },
                               //  "center": { "fill": "#ae1e1e", "diameter": 8, "stroke": "#590303", "stroke-width": 6 },
@@ -79,37 +79,61 @@
                         gauge.options.markers.gap = 50;
                         gauge.options.end.num = max.sound;
                     }
+
+                    gauge.SonicGauge('val', current.Sound);
+
                 }
                 catch (e) {
-                   // alert(e.message);
+             //      alert(e.message);
                 }
 
             }
-
-            setTimeout(PopulateAverages, 300);
         }
-
     }
+
+    function LogMessage( message )
+    {
+        var date = new Date();
+
+        // create a table row for this message
+        try {
+            $('#messages').html(date.toGMTString() + ' - ' + message );
+        }
+        catch (e) {
+            alert(e.message);
+        }
+    }
+
     function PopulateChart() {
 
-        $.ajax({
-            url: "/api/SoundLatestData",
-            type: "GET",
-            dataType: "json",
-            success: onDataReceived
-        });
+        LogMessage("call Ajax for sound data");
 
-        function onDataReceived(soundData) {
+        try{
+            $.ajax({
+                url: "/api/SoundData",
+                type: "GET",
+                dataType: "json",
+                success: onDataReceived,
+                error: onError,
+                async:false
+            });
+        }
+        catch(e)
+        {
+            LogMessage('Error calling Ajax: ' + e.message);
+        }
 
-            if (soundData != null) {
+        function onError(data)
+        {
+            LogMessage('Error calling Ajax /sounddata: ' + e.message);
+        }
 
-                try {
-                   // gauge.val = soundData.sound;
-                    gauge.SonicGauge('val', soundData.Sound);
-                }
-                catch (e) {
-                   // alert(e.message);
-                }
+        function onDataReceived( data ) {
+
+            LogMessage("received sound data");
+
+            if (data != null && data.length != 0) {
+                var length = data.length;
 
                 try {
 
@@ -122,33 +146,20 @@
                             pointSize: 2,
                             hideHover: 'auto',
                             resize: true,
-                            ymax: 1023
+                            ymax: 100
                         });
                     }
 
-                    var mostRecentValue = null;
-                    if (realtimeData.length > 0)
-                        mostRecentValue = realtimeData[realtimeData.length - 1];
-
-
-                    // add new value to array
-                    if (mostRecentValue == null || mostRecentValue.Time != soundData.Time)
-                        realtimeData.push(soundData);
-
-                    // if there is too much data then remove some from the start
-                    if (realtimeData.length > maxGraphValues)
-                    {
-                        realtimeData.splice(0, 1);
-                    }
-
-                    lineChart.setData(realtimeData, true);
+                    lineChart.setData(data, true);
                     lineChart.redraw();
                 }
                 catch (e) {
-              //      alert(e.message);
                 }
 
-                setTimeout(PopulateChart, 100);
+            }
+            else
+            {
+                LogMessage("No data returned from /SoundData")
             }
         }
 

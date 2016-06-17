@@ -17,6 +17,7 @@ namespace Website.Controllers
                 Maximum = ClapOMeterEventProcessor.SoundDataMax,
                 Minimum = ClapOMeterEventProcessor.SoundDataMin,
                 Average = Math.Round( ClapOMeterEventProcessor.SoundDataAVG),
+                Current = ClapOMeterEventProcessor.SoundDataLatest,
                 TimeFrame = string.Format("{0} days, {1} hours, {2} minutes, {3} seconds",
                 ClapOMeterEventProcessor.SoundCollectionPeriod.Days.ToString(),
                 ClapOMeterEventProcessor.SoundCollectionPeriod.Hours.ToString(),
@@ -34,6 +35,13 @@ namespace Website.Controllers
         }
     }
 
+    public class SoundDataController : ApiController
+    {
+        public List<SoundDataModel> Get()
+        {
+            return ClapOMeterEventProcessor.SoundData;
+        }
+    }
 
     public class SoundLatestDataController : ApiController
     {
